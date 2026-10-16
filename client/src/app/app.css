@@ -1,0 +1,29 @@
+:host { display: block; min-block-size: 100vh; }
+.demo-shell { min-block-size: 100vh; background: #f0f3ef; }
+.masthead { color: #fff; background: #153f34; border-block-end: 4px solid #dce9a8; }
+.masthead-inner {
+  inline-size: min(100% - 32px, 1040px);
+  min-block-size: 72px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.brand { display: inline-flex; align-items: center; gap: 11px; color: inherit; text-decoration: none; }
+.brand-mark { inline-size: 38px; block-size: 38px; display: grid; place-items: center; color: #153f34; background: #e5edbd; font-size: 20px; font-weight: 800; }
+.brand-name { font-size: 15px; font-weight: 700; }
+.brand-name span { color: #e5edbd; }
+.office-label { padding-inline-start: 15px; border-inline-start: 1px solid #7b978b; color: #f2f6f1; font-size: 13px; }
+.main-content { inline-size: min(100% - 32px, 1040px); margin-inline: auto; padding-block: 42px 72px; }
+.hero { margin-block-end: 32px; padding-block: 0 24px; padding-inline: 2px; border-block-end: 1px solid #cad5cc; }
+.eyebrow { display: flex; align-items: center; gap: 8px; margin-block: 0; margin-inline: 0; color: #285b49; font-size: 13px; font-weight: 700; }
+.eyebrow span { inline-size: 20px; block-size: 3px; background: #a13f2e; }
+.hero h1 { margin-block: 12px 7px; color: #1c302a; font-size: 36px; font-weight: 700; line-height: 1.25; }
+.hero-copy { margin-block: 0; margin-inline: 0; color: #4f6157; font-size: 16px; line-height: 1.75; }
+
+@media (max-width: 420px) {
+  .main-content { padding-block-start: 30px; }
+  .hero h1 { font-size: 31px; }
+  .office-label { padding-inline-start: 9px; font-size: 12px; }
+}

@@ -1,0 +1,65 @@
+:host {
+  display: block;
+  direction: rtl;
+  color: #1c302a;
+}
+
+.feed { min-inline-size: 0; }
+.feed-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-block-end: 16px; }
+.section-kicker { margin-block: 0 4px; margin-inline: 0; color: #65412f; font-size: 12px; font-weight: 700; letter-spacing: 0; }
+.feed-heading h2 { margin-block: 0; margin-inline: 0; color: #1c302a; font-size: 22px; font-weight: 700; line-height: 1.4; }
+.feed-heading h2:focus { outline: 3px solid #a13f2e; outline-offset: 3px; }
+.count { flex: 0 0 auto; color: #4f6157; font-size: 13px; font-variant-numeric: tabular-nums; }
+
+.announcement-list,
+.skeleton-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.announcement-list { margin-block: 0; margin-inline: 0; padding-block: 0; padding-inline: 0; list-style: none; }
+.announcement-list-item { min-inline-size: 0; animation: reveal 360ms both; }
+.announcement { min-inline-size: 0; padding-block: 19px; padding-inline: 20px; background: #fff; border: 1px solid #d2ddd4; border-inline-start: 3px solid #607b6c; }
+.announcement.urgent { border-inline-start-width: 5px; border-inline-start-color: #872f23; }
+.announcement-top { min-block-size: 25px; display: flex; align-items: center; gap: 9px; color: #4d5f55; font-size: 13px; }
+.category { color: #235c4b; font-weight: 700; }
+.urgent-badge { display: inline-flex; align-items: center; gap: 5px; padding-block: 3px; padding-inline: 8px; color: #fff; background: #842f24; border: 1px solid #842f24; font-size: 12px; font-weight: 700; }
+.urgent-icon { inline-size: 17px; block-size: 17px; display: inline-block; flex: 0 0 auto; color: #fff; }
+.announcement time { margin-inline-start: auto; color: #4d5f55; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.announcement h3 { margin-block: 12px 6px; margin-inline: 0; color: #1c302a; font-size: 18px; font-weight: 700; line-height: 1.5; overflow-wrap: anywhere; }
+.summary { margin-block: 0; margin-inline: 0; color: #45564d; font-size: 15px; line-height: 1.8; overflow-wrap: anywhere; text-align: start; }
+
+.state-panel { min-block-size: 170px; display: grid; place-items: center; padding-block: 24px; padding-inline: 16px; background: #fff; border: 1px solid #d2ddd4; text-align: center; }
+.state-panel p { margin-block: 0; margin-inline: 0; color: #1c302a; font-size: 18px; font-weight: 600; }
+.error-panel p { margin-block-end: 16px; color: #762b20; }
+.retry-button { min-block-size: 44px; padding-inline: 18px; color: #fff; background: #153f34; border: 2px solid #153f34; cursor: pointer; font-size: 15px; font-weight: 700; }
+.retry-button:hover { background: #235c4b; }
+.retry-button:focus-visible { outline: 3px solid #e5edbd; outline-offset: 2px; box-shadow: 0 0 0 5px #153f34; }
+
+.skeleton-card { min-block-size: 142px; padding-block: 21px; padding-inline: 21px; background: #fff; border: 1px solid #d2ddd4; }
+.skeleton-line { display: block; block-size: 12px; margin-block-end: 14px; background: linear-gradient(90deg, #e3e9e3 20%, #f4f6f3 45%, #e3e9e3 70%); background-size: 220% 100%; animation: shimmer 1.4s ease-in-out infinite; }
+.skeleton-line.short { inline-size: 28%; }
+.skeleton-line.medium { inline-size: 62%; block-size: 18px; }
+.skeleton-line.long { inline-size: 88%; }
+.visually-hidden { position: absolute; inline-size: 1px; block-size: 1px; padding-block: 0; padding-inline: 0; margin-block: -1px; margin-inline: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+@keyframes reveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shimmer { to { background-position: -220% 0; } }
+
+@media (min-width: 720px) {
+  .announcement-list,
+  .skeleton-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 420px) {
+  .announcement { padding-block: 16px; padding-inline: 14px; }
+  .announcement-top { gap: 6px; font-size: 12px; }
+  .announcement time { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}

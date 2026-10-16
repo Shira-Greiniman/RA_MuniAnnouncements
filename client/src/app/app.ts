@@ -5,7 +5,8 @@ import { ResidentAnnouncementsComponent } from './resident-announcements/residen
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ResidentAnnouncementsComponent],
   selector: 'app-root',
+  styleUrl: './app.css',
+  templateUrl: './app.html',
   standalone: true,
-  template: `<app-resident-announcements [authorityCode]="'6500'"></app-resident-announcements>`,
 })
 export class App {}

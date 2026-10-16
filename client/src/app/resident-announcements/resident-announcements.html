@@ -1,86 +1,74 @@
-<div class="resident-shell" dir="rtl" lang="he">
-  <header class="masthead">
-    <div class="masthead-inner">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">ר</span>
-        <span>
-          <span class="brand-name">עדכוני תושבים</span>
-          <span class="brand-caption">מידע רשמי מהרשות המקומית</span>
-        </span>
-      </div>
-      <span class="authority-chip">רשות {{ authorityCode() }}</span>
+<section
+  #feedRegion
+  class="feed"
+  aria-labelledby="feed-title"
+  [attr.aria-busy]="viewState().status === 'loading' ? 'true' : 'false'">
+  @let state = viewState();
+  <header class="feed-heading">
+    <div>
+      <p class="section-kicker">לוח הודעות</p>
+      <h2 #feedTitle id="feed-title" tabindex="-1">
+        @if (state.status === 'list' || state.status === 'empty') {
+          הודעות מ{{ state.response.authorityName }}
+        } @else {
+          הודעות לתושבים
+        }
+      </h2>
     </div>
+    @if (state.status === 'list') {
+      <span class="count">{{ state.response.announcements.length }} הודעות</span>
+    }
   </header>
 
-  <main class="main-content">
-    @let state = viewState();
-
-    <section class="intro" aria-labelledby="page-title">
-      <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span>חדשות ועדכונים מקומיים</p>
-      @if (state.status === 'list' || state.status === 'empty') {
-        <h1 id="page-title">{{ state.response.authorityName }}</h1>
-      } @else {
-        <h1 id="page-title">עדכונים לתושבים</h1>
-      }
-      <p class="intro-copy">הודעות חשובות, עדכוני שירות ומידע שוטף לתושבות ולתושבים.</p>
-    </section>
-
-    <section class="feed" aria-labelledby="feed-title" [attr.aria-busy]="state.status === 'loading'">
-      <header class="feed-heading">
+  @switch (state.status) {
+    @case ('loading') {
+      <p class="visually-hidden" role="status">טוען הודעות</p>
+      <div class="skeleton-list" aria-hidden="true">
+        @for (placeholder of [1, 2, 3, 4]; track placeholder) {
+          <div class="skeleton-card">
+            <span class="skeleton-line short"></span>
+            <span class="skeleton-line medium"></span>
+            <span class="skeleton-line long"></span>
+          </div>
+        }
+      </div>
+    }
+    @case ('error') {
+      <div class="state-panel error-panel" role="alert">
         <div>
-          <p class="section-kicker">לוח הודעות</p>
-          <h2 id="feed-title">הודעות אחרונות</h2>
+          <p>לא ניתן לטעון את ההודעות כרגע</p>
+          <button class="retry-button" type="button" (click)="retry()">נסה שוב</button>
         </div>
-        @if (state.status === 'list') {
-          <span class="count">{{ state.response.announcements.length }} הודעות</span>
-        }
-      </header>
-
-      @switch (state.status) {
-        @case ('loading') {
-          <div class="skeleton-list" role="status" aria-label="טוען הודעות">
-            @for (placeholder of [1, 2, 3, 4]; track placeholder) {
-              <div class="skeleton-card" aria-hidden="true">
-                <span class="skeleton-line short"></span>
-                <span class="skeleton-line medium"></span>
-                <span class="skeleton-line long"></span>
+      </div>
+    }
+    @case ('empty') {
+      <div class="state-panel" role="status"><p>אין הודעות חדשות</p></div>
+    }
+    @case ('list') {
+      <ul class="announcement-list">
+        @for (announcement of state.response.announcements; track announcement.id; let index = $index) {
+          <li class="announcement-list-item" [style.animation-delay.ms]="index * 45">
+            <article class="announcement" [class.urgent]="announcement.isUrgent">
+              <div class="announcement-top">
+                <span class="category">{{ announcement.categoryName }}</span>
+                @if (announcement.isUrgent) {
+                  <span class="urgent-badge">
+                    <svg class="urgent-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                      <path d="M10 2.8 18 17H2L10 2.8Z" fill="none" stroke="currentColor" stroke-width="1.7" />
+                      <path d="M10 7v4.5" stroke="currentColor" stroke-width="1.7" />
+                      <circle cx="10" cy="14.1" r=".8" fill="currentColor" />
+                    </svg>
+                    דחוף
+                  </span>
+                }
+                <time [attr.datetime]="toIsoDate(announcement.publishDate)">{{ announcement.publishDate }}</time>
               </div>
-            }
-          </div>
+              <h3>{{ announcement.title }}</h3>
+              <p class="summary">{{ announcement.summary }}</p>
+            </article>
+          </li>
         }
-        @case ('error') {
-          <div class="state-panel error-panel" role="alert">
-            <div>
-              <p>לא ניתן לטעון את ההודעות כרגע</p>
-              <button class="retry-button" type="button" (click)="retry()">נסה שוב</button>
-            </div>
-          </div>
-        }
-        @case ('empty') {
-          <div class="state-panel" role="status">
-            <p>אין הודעות חדשות</p>
-          </div>
-        }
-        @case ('list') {
-          <div class="announcement-list">
-            @for (announcement of state.response.announcements; track announcement.id; let index = $index) {
-              <article class="announcement" [class.urgent]="announcement.isUrgent" [style.animation-delay.ms]="index * 45">
-                <div class="announcement-top">
-                  <span class="category">{{ announcement.categoryName }}</span>
-                  @if (announcement.isUrgent) {
-                    <span class="urgent-label">דחוף</span>
-                  }
-                  <time>{{ announcement.publishDate }}</time>
-                </div>
-                <h3>{{ announcement.title }}</h3>
-                <p class="summary">{{ announcement.summary }}</p>
-              </article>
-            }
-          </div>
-        }
-      }
-    </section>
-
-    <footer class="footer-note">המידע מתעדכן על ידי הרשות המקומית.</footer>
-  </main>
-</div>
+      </ul>
+    }
+  }
+</section>
