@@ -97,8 +97,11 @@ public sealed class AnnouncementNormalizer(
             node.Remove();
         }
 
-        var text = WebUtility.HtmlDecode(document.DocumentNode.InnerText)
-            .Replace('\u00A0', ' ');
+        var textNodes = document.DocumentNode.SelectNodes("//text()");
+        var text = textNodes is null
+            ? string.Empty
+            : string.Join(" ", textNodes.Select(node => node.InnerText));
+        text = WebUtility.HtmlDecode(text).Replace('\u00A0', ' ');
         text = Regex.Replace(text, @"\s+", " ").Trim();
 
         if (text.Length <= MaxSummaryLength)

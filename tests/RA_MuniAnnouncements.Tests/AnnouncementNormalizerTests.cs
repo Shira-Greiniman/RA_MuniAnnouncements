@@ -204,6 +204,20 @@ public sealed class AnnouncementNormalizerTests
     }
 
     [Fact]
+    public void Normalize_SeparatesTextFromAdjacentHtmlElements()
+    {
+        // Arrange
+        var normalizer = CreateNormalizer(CreateClock());
+        var item = BuildAnnouncement("adjacent-elements", body: "<h2>A</h2><p>B</p><div>C</div>");
+
+        // Act
+        var result = normalizer.Normalize([item], BuildSettings());
+
+        // Assert
+        Assert.Equal("A B C", Assert.Single(result.Announcements).Summary);
+    }
+
+    [Fact]
     public void Normalize_LimitsSummaryTo150CharactersAndLeavesShortBodyUnchanged()
     {
         // Arrange
