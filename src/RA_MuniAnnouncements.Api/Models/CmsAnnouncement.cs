@@ -13,7 +13,7 @@ public sealed record CmsAnnouncement(
     string Id,
     string AuthorityCode,
     string Title,
-    string Body,
+    string? Body,
     string Category,
     string Status,
     DateTimeOffset PublishDate,
