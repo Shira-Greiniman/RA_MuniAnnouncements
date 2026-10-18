@@ -1,29 +1,46 @@
 :host { display: block; min-block-size: 100vh; }
-.demo-shell { min-block-size: 100vh; background: #f0f3ef; }
-.masthead { color: #fff; background: #153f34; border-block-end: 4px solid #dce9a8; }
+.demo-shell { min-block-size: 100vh; background: var(--color-page); }
+.masthead { color: var(--color-paper); background: var(--color-forest); border-block-end: 4px solid var(--color-accent); }
 .masthead-inner {
   inline-size: min(100% - 32px, 1040px);
-  min-block-size: 72px;
+  min-block-size: 80px;
   margin-inline: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
 }
-.brand { display: inline-flex; align-items: center; gap: 11px; color: inherit; text-decoration: none; }
-.brand-mark { inline-size: 38px; block-size: 38px; display: grid; place-items: center; color: #153f34; background: #e5edbd; font-size: 20px; font-weight: 800; }
+.brand { display: inline-flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+.brand:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 5px; }
+.brand-mark { inline-size: 44px; block-size: 44px; display: grid; place-items: center; color: var(--color-forest); background: var(--color-accent); border-radius: var(--card-radius); }
+.brand-mark svg { inline-size: 28px; block-size: 28px; }
 .brand-name { font-size: 15px; font-weight: 700; }
-.brand-name span { color: #e5edbd; }
-.office-label { padding-inline-start: 15px; border-inline-start: 1px solid #7b978b; color: #f2f6f1; font-size: 13px; }
+.brand-name span { color: var(--color-accent); }
+.office-label { padding-block: var(--space-2); padding-inline-start: 15px; border-inline-start: 1px solid var(--color-forest-hover); color: var(--color-paper); font-size: 13px; }
 .main-content { inline-size: min(100% - 32px, 1040px); margin-inline: auto; padding-block: 42px 72px; }
-.hero { margin-block-end: 32px; padding-block: 0 24px; padding-inline: 2px; border-block-end: 1px solid #cad5cc; }
-.eyebrow { display: flex; align-items: center; gap: 8px; margin-block: 0; margin-inline: 0; color: #285b49; font-size: 13px; font-weight: 700; }
-.eyebrow span { inline-size: 20px; block-size: 3px; background: #a13f2e; }
-.hero h1 { margin-block: 12px 7px; color: #1c302a; font-size: 36px; font-weight: 700; line-height: 1.25; }
-.hero-copy { margin-block: 0; margin-inline: 0; color: #4f6157; font-size: 16px; line-height: 1.75; }
+.hero { margin-block-end: 36px; padding-block: 0 27px; padding-inline: 2px; border-block-end: 1px solid var(--color-forest-border); }
+.eyebrow { display: flex; align-items: center; gap: 9px; margin-block: 0; margin-inline: 0; color: var(--color-forest-hover); font-size: 13px; font-weight: 700; }
+.eyebrow span { inline-size: 24px; block-size: 3px; background: var(--color-urgent); }
+.hero h1 { margin-block: 14px 8px; color: var(--color-ink); font-size: 39px; font-weight: 700; line-height: 1.2; }
+.hero-copy { margin-block: 0; margin-inline: 0; color: var(--color-muted); font-size: 16px; line-height: 1.75; }
 
 @media (max-width: 420px) {
   .main-content { padding-block-start: 30px; }
   .hero h1 { font-size: 31px; }
-  .office-label { padding-inline-start: 9px; font-size: 12px; }
+  .masthead-inner { gap: 8px; }
+  .brand { min-inline-size: 0; gap: 6px; }
+  .brand-name { min-inline-size: 0; font-size: 13px; }
+  .brand-mark { inline-size: 40px; block-size: 40px; }
+  .brand-mark svg { inline-size: 25px; block-size: 25px; }
+  .office-label { max-inline-size: 40%; padding-inline-start: 8px; font-size: 11px; text-align: start; }
+}
+
+@media print {
+  .masthead { display: none; }
+  .demo-shell,
+  .main-content { background: var(--color-print-paper); }
+  .main-content { inline-size: 100%; padding-block: 0; }
+  .hero h1,
+  .hero-copy,
+  .eyebrow { color: var(--color-print-ink); }
 }

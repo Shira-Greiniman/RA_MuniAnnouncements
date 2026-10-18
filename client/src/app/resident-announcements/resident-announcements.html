@@ -24,8 +24,8 @@
     @case ('loading') {
       <p class="visually-hidden" role="status">טוען הודעות</p>
       <div class="skeleton-list" aria-hidden="true">
-        @for (placeholder of [1, 2, 3, 4]; track placeholder) {
-          <div class="skeleton-card">
+        @for (placeholder of [1, 2, 3, 4, 5]; track placeholder) {
+          <div class="skeleton-card" [class.skeleton-featured]="placeholder === 1">
             <span class="skeleton-line short"></span>
             <span class="skeleton-line medium"></span>
             <span class="skeleton-line long"></span>
@@ -35,19 +35,30 @@
     }
     @case ('error') {
       <div class="state-panel error-panel" role="alert">
-        <div>
+        <div class="state-content">
+          <svg class="state-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <path d="M16 3.5 29 27H3L16 3.5Z" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M16 11v7" stroke="currentColor" stroke-width="2" />
+            <circle cx="16" cy="22" r="1.2" fill="currentColor" />
+          </svg>
           <p>לא ניתן לטעון את ההודעות כרגע</p>
           <button class="retry-button" type="button" (click)="retry()">נסה שוב</button>
         </div>
       </div>
     }
     @case ('empty') {
-      <div class="state-panel" role="status"><p>אין הודעות חדשות</p></div>
+      <div class="state-panel" role="status">
+        <svg class="state-icon empty-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M6 8h20v19H6zM10 4v8M22 4v8M6 14h20" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="m12 21 2.5 2.5L21 17" fill="none" stroke="currentColor" stroke-width="2" />
+        </svg>
+        <p>אין הודעות חדשות</p>
+      </div>
     }
     @case ('list') {
       <ul class="announcement-list">
         @for (announcement of state.response.announcements; track announcement.id; let index = $index) {
-          <li class="announcement-list-item" [style.animation-delay.ms]="index * 45">
+          <li class="announcement-list-item" [class.featured]="announcement.isUrgent" [style.animation-delay.ms]="index < 5 ? index * 55 : 220">
             <article class="announcement" [class.urgent]="announcement.isUrgent">
               <div class="announcement-top">
                 <span class="category">{{ announcement.categoryName }}</span>
@@ -61,7 +72,12 @@
                     דחוף
                   </span>
                 }
-                <time [attr.datetime]="toIsoDate(announcement.publishDate)">{{ announcement.publishDate }}</time>
+                <time [attr.datetime]="toIsoDate(announcement.publishDate)">
+                  <svg class="calendar-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path d="M3 2v3M13 2v3M2.5 4.5h11v9h-11zM5 7h2v2H5zM9 7h2v2H9z" fill="none" stroke="currentColor" stroke-width="1.3" />
+                  </svg>
+                  <span>{{ announcement.publishDate }}</span>
+                </time>
               </div>
               <h3>{{ announcement.title }}</h3>
               <p class="summary">{{ announcement.summary }}</p>
